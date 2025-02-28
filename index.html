@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
+    <title>dataviewtool - Light Weight Ultra Fast Data View Tool</title>
+    <meta name="title" content="dataviewtool - Light Weight Ultra Fast Data View Tool">
+    <meta name="description" content="lightweight data analytics tool for connecting to multiple databases, exploring data, and creating interactive dashboards. Built for performance, not for profit.">
+    <meta name="keywords" content="data visualization, database tool, SQL query builder, analytics dashboard, business intelligence, data analytics, PostgreSQL, MySQL, Snowflake, BigQuery">
+    <meta name="author" content="dataviewtool">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <link rel="canonical" href="https://dataviewtool.com">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dataviewtool.com">
+    <meta property="og:title" content="dataviewtool - Light Weight Ultra Fast Data View Tool">
+    <meta property="og:description" content="lightweight data analytics tool for connecting to multiple databases, exploring data, and creating interactive dashboards. Built for performance, not for profit.">
+    <meta property="og:image" content="https://dataviewtool.com/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://dataviewtool.com">
+    <meta property="twitter:title" content="dataviewtool - Light Weight Ultra Fast Data View Tool">
+    <meta property="twitter:description" content="lightweight data analytics tool for connecting to multiple databases, exploring data, and creating interactive dashboards. Built for performance, not for profit.">
+    <meta property="twitter:image" content="https://dataviewtool.com/twitter-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logolight.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" href="logodark.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" href="logolight.png">
+
+    <!-- Schema.org markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "dataviewtool",
+        "description": "lightweight data analytics tool for connecting to multiple databases, exploring data, and creating interactive dashboards.",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "features": [
+            "Dynamic SQL Generation",
+            "Real-time Dashboards",
+            "Embedded Charts",
+            "Export & Schedule",
+            "Enterprise Security",
+            "Multi-Environment Support"
+        ]
+    }
+    </script>
+
+    <!-- Preconnect to external resources -->
+    <meta name="description" content="Open-source, lightweight data analytics tool for connecting to multiple databases, exploring data, and creating interactive dashboards.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'media',
+            theme: {
+                fontFamily: {
+                    'geist': ['Geist', 'sans-serif'],
+                },
+            }
+        }
+    </script>
+    <style>
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fade in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px rgba(255,255,255,0.1); }
+            50% { box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+            100% { box-shadow: 0 0 5px rgba(255,255,255,0.1); }
+        }
+
+        @keyframes outlineGlow {
+            0% { outline-color: rgba(255,255,255,0.1); }
+            50% { outline-color: rgba(255,255,255,0.3); }
+            100% { outline-color: rgba(255,255,255,0.1); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .glow-card {
+            animation: glowPulse 2s infinite ease-in-out;
+            outline: 1px solid rgba(255,255,255,0.1);
+            animation: outlineGlow 2s infinite ease-in-out;
+        }
+
+        .database-logo {
+            transition: all 0.3s ease;
+        }
+
+        .database-logo:hover {
+            transform: scale(1.02);
+        }
+
+        /* Smooth color transitions */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Feature card hover */
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+
+        @keyframes menuSlideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #mobile-menu:not(.hidden) {
+            animation: menuSlideDown 0.2s ease-out forwards;
+        }
+
+        /* Menu icon animation */
+        .menu-icon .open,
+        .menu-icon .close {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .menu-icon .close {
+            opacity: 0;
+            transform: rotate(-45deg) scale(0);
+        }
+
+        button[aria-expanded="true"] .menu-icon .open {
+            opacity: 0;
+            transform: rotate(45deg) scale(0);
+        }
+
+        button[aria-expanded="true"] .menu-icon .close {
+            opacity: 1;
+            transform: rotate(0) scale(1);
+        }
+
+        @keyframes borderBeam {
+            0% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .animated-border {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(8px);
+        }
+
+        .animated-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            animation: borderBeam 4s linear infinite;
+        }
+
+        .dark .animated-border {
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+        }
+
+        .dark .animated-border::before {
+            background: linear-gradient(90deg, 
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+        }
+    </style>
+    <script>
+        // Reveal elements on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            
+            reveals.forEach(element => {
+                var windowHeight = window.innerHeight;
+                var elementTop = element.getBoundingClientRect().top;
+                var elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add("active");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", reveal);
+    </script>
+</head>
+<body class="antialiased bg-white dark:bg-black text-neutral-900 dark:text-neutral-100 font-geist">
+    <!-- Header -->
+    <header class="fixed w-full z-50">
+        <nav class="mx-auto px-6 lg:px-8 py-4">
+            <div class="relative">
+                <div class="absolute inset-0 blur-lg bg-white/75 dark:bg-black/75 -z-10"></div>
+                <div class="flex items-center justify-between">
+                    <a href="/" class="text-2xl font-bold tracking-tighter">
+                        <img src="logolight.png" alt="dataviewtool" class="h-16 block dark:hidden">
+                        <img src="logodark.png" alt="dataviewtool" class="h-16 hidden dark:block">
+                    </a>
+                        
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center gap-8">
+                        <a href="#databases" class="text-sm font-medium hover:opacity-70 transition-opacity">Databases</a>
+                        <a href="#features" class="text-sm font-medium hover:opacity-70 transition-opacity">Features</a>
+                        <a href="#pricing-section" class="text-sm font-medium hover:opacity-70 transition-opacity">Pricing</a>
+                        <div class="h-4 w-px bg-neutral-200 dark:bg-neutral-800"></div>
+                        <a href="#early-access" class="inline-flex h-10 items-center justify-center rounded-lg bg-neutral-900 px-8 text-sm font-medium text-white hover:bg-neutral-700 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors">
+                            Early Access
+                        </a>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <button type="button" class="md:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 relative" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="menu-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <g class="open">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </g>
+                            <g class="close">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div class="md:hidden absolute left-0 right-0 top-full mt-2 hidden transition-all duration-300 ease-in-out" id="mobile-menu">
+                <div class="mx-4 rounded-lg bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 shadow-lg divide-y divide-neutral-200 dark:divide-neutral-800">
+                    <div class="py-2">
+                        <a href="#databases" class="block px-4 py-3 text-sm font-medium hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors">
+                            Databases
+                        </a>
+                        <a href="#features" class="block px-4 py-3 text-sm font-medium hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors">
+                            Features
+                        </a>
+                        <a href="#pricing-section" class="block px-4 py-3 text-sm font-medium hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors">
+                            Pricing
+                        </a>
+                    </div>
+                    <div class="py-2">
+                        <a href="#early-access" class="block px-4 py-3 text-sm font-medium text-center bg-neutral-900 dark:bg-white text-white dark:text-black hover:bg-neutral-700 dark:hover:bg-neutral-200 transition-colors rounded-md mx-4">
+                            Early Access
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative isolate pt-32 pb-20">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+            <div class="mx-auto max-w-3xl">
+                <h1 class="text-4xl font-bold tracking-tight sm:text-6xl mb-4">
+                    light weight ultra fast
+                </h1>
+                <p class="text-2xl font-semibold mb-6">Data View Tool</p>
+                <p class="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-400">
+                    A revolutionary approach to data visualization. Connect to any database, explore data, and create interactive dashboards with blazing speed. Built for performance, not for profit.
+                </p>
+                <div class="mt-10 flex flex-col gap-4 sm:flex-row justify-center">
+                    <a href="#early-access" class="inline-flex h-12 items-center justify-center rounded-lg bg-neutral-900 px-8 text-sm font-medium text-white hover:bg-neutral-700 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors">
+                        Get Early Access
+                    </a>
+                    <a href="#demo" class="inline-flex h-12 items-center justify-center rounded-lg border px-8 text-sm font-medium transition-colors hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900">
+                        Watch Demo
+                    </a>
+                </div>
+                <div class="mt-8 flex justify-center">
+                    <div class="animated-border relative rounded-full px-6 py-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-all duration-300 group">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-sparkles text-amber-400"></i>
+                            <s class="opacity-75">$1,111 One-time Payment</s>
+                            <span class="font-semibold">Early Access Available for Free</span>
+                            <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Comparison -->
+    <section class="py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center mb-16">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Why Choose dataviewtool?</h2>
+                <p class="text-lg text-neutral-600 dark:text-neutral-400">
+                    Unlike traditional BI platforms that are heavy and expensive, dataviewtool is built from the ground up for speed and efficiency.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8">
+                    <h3 class="text-lg font-semibold mb-4">Ultra-Fast Stack</h3>
+                    <p class="text-neutral-600 dark:text-neutral-400">Built with SvelteKit, Bun + Hono, Drizzle, Zod, and SQLite for ultra fast performance and security.</p>
+                </div>
+                <div class="rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8">
+                    <h3 class="text-lg font-semibold mb-4">Resource Efficient</h3>
+                    <p class="text-neutral-600 dark:text-neutral-400">Minimal CPU, memory, and disk usage. Host it anywhere - from a small VPS to enterprise infrastructure.</p>
+                </div>
+                <div class="rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8">
+                    <h3 class="text-lg font-semibold mb-4">Own Forever</h3>
+                    <p class="text-neutral-600 dark:text-neutral-400">No monthly subscriptions. Buy once, use forever. Unlike other semi open source tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Database Support -->
+    <section id="databases" class="py-24 sm:py-32 bg-neutral-50 dark:bg-neutral-900/50">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center mb-16 animate-fade-in">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Supported Databases</h2>
+                <p class="text-lg text-neutral-600 dark:text-neutral-400">
+                    Connect to any major database or data warehouse. 
+                    <a href="#contact" class="underline hover:no-underline hover:text-neutral-900 dark:hover:text-white">Need a custom adapter? Let us know.</a>
+                </p>
+            </div>
+            <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 even:translate-y-6 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">PostgreSQL</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 odd:translate-y-12 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">MySQL</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 even:translate-y-6 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">Snowflake</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 odd:translate-y-12 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">Redshift</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 even:translate-y-6 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">Databricks</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 odd:translate-y-12 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">DuckDB</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 even:translate-y-6 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">ClickHouse</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 odd:translate-y-12 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">SAP HANA</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 even:translate-y-6 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">BigQuery</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 odd:translate-y-12 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">Synapse</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 even:translate-y-6 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">Oracle DB</span>
+                </div>
+                <div class="database-block group h-24 rounded-xl ring-1 ring-neutral-200 dark:ring-neutral-800 hover:ring-2 hover:ring-neutral-400 dark:hover:ring-neutral-600 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center p-4 odd:translate-y-12 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:z-10">
+                    <span class="font-medium text-center">IBM Db2</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center mb-16 animate-fade-in">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Powerful Features</h2>
+            </div>
+            <div class="space-y-8">
+                <!-- Feature Cards with proper stacking -->
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-24 bg-white dark:bg-black z-[31]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-database text-2xl"></i>
+                                <h4 class="text-xl font-medium">Dynamic SQL Generation</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">Intelligent query builder with real-time execution and optimization</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-sql.png" alt="SQL Generation" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-28 bg-white dark:bg-black z-[32]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-gauge-high text-2xl"></i>
+                                <h4 class="text-xl font-medium">Real-time Dashboards</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">Live data updates with minimal latency and resource usage</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-dashboard.png" alt="Real-time Dashboards" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-32 bg-white dark:bg-black z-[33]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-chart-line text-2xl"></i>
+                                <h4 class="text-xl font-medium">Embedded Charts</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">Fast-rendering charts served via Bun + Hono with customizable styles</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-charts.png" alt="Embedded Charts" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-36 bg-white dark:bg-black z-[34]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-file-export text-2xl"></i>
+                                <h4 class="text-xl font-medium">Export & Schedule</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">Export to CSV, PNG, PDF and schedule automated reports</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-export.png" alt="Export Options" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-40 bg-white dark:bg-black z-[35]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-mobile-screen text-2xl"></i>
+                                <h4 class="text-xl font-medium">Responsive Design</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">Mobile-first design with home screen support and touch optimization</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-responsive.png" alt="Responsive Design" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-44 bg-white dark:bg-black z-[36]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-shield-halved text-2xl"></i>
+                                <h4 class="text-xl font-medium">Enterprise Security</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">RBAC, SSO, audit logs, and data masking capabilities</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-security.png" alt="Enterprise Security" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-48 bg-white dark:bg-black z-[37]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-code-branch text-2xl"></i>
+                                <h4 class="text-xl font-medium">Multi-Environment</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">Support for multiple environments with versioning and custom styling</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-environments.png" alt="Multi-Environment" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-52 bg-white dark:bg-black z-[38]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-code text-2xl"></i>
+                                <h4 class="text-xl font-medium">API Access</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">Full API access with comprehensive documentation</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-api.png" alt="API Access" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="reveal rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sticky top-56 bg-white dark:bg-black z-[39]">
+                    <div class="flex items-center">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-memory text-2xl"></i>
+                                <h4 class="text-xl font-medium">Query Result Caching</h4>
+                            </div>
+                            <p class="text-neutral-600 dark:text-neutral-400">In-memory caching strategy for faster query results and improved performance</p>
+                        </div>
+                    </div>
+                    <div class="aspect-video rounded-xl bg-neutral-100 dark:bg-neutral-800">
+                        <img src="feature-cache.png" alt="Query Caching" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <!-- Features Summary (without animation) -->
+                <div class="rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 p-8 mt-16 relative z-[40] bg-white dark:bg-black">
+                    <h3 class="text-2xl font-semibold mb-8 text-center">All Features at a Glance</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Dynamic SQL Generation</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Real-time Dashboards</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Embedded Charts</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Export Options (CSV, PNG, PDF)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Scheduled Reports</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Responsive Design</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Analytics Integration</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>RBAC & SSO</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Audit Logging</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Data Masking</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Multi-Environment Support</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Versioning</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Custom CSS</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Role-based Access Control</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>Full API Access</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-sm"></i>
+                            <span>In Memory Query Result Caching</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing-section" class="py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center mb-16">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Simple Pricing</h2>
+                <p class="text-lg text-neutral-600 dark:text-neutral-400">
+                    Own it forever, no recurring subscriptions
+                </p>
+            </div>
+            <div class="mx-auto max-w-2xl rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 lg:mx-0 lg:flex lg:max-w-none">
+                <div class="p-8 sm:p-10 lg:flex-auto">
+                    <h3 class="text-2xl font-bold tracking-tight">One-Time Payment</h3>
+                    <p class="mt-6 text-base leading-7 text-neutral-600 dark:text-neutral-400">
+                        Get the complete source code and own it forever. Includes:
+                    </p>
+                    <div class="mt-8">
+                        <ul class="space-y-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                            <li class="flex gap-x-3">
+                                <i class="fas fa-check mt-1"></i>
+                                <span>Full source code access</span>
+                            </li>
+                            <li class="flex gap-x-3">
+                                <i class="fas fa-check mt-1"></i>
+                                <span>Free minor version upgrades (1.2 → 1.x)</span>
+                            </li>
+                            <li class="flex gap-x-3">
+                                <i class="fas fa-check mt-1"></i>
+                                <span>Discounted major version upgrades (1.x → 2.0)</span>
+                            </li>
+                            <li class="flex gap-x-3">
+                                <i class="fas fa-check mt-1"></i>
+                                <span>No limit on admins, editors, viewers, and embedded viewers (based on hosting infrastructure)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                    <div class="rounded-2xl bg-neutral-50 dark:bg-neutral-900/50 py-10 text-center ring-1 ring-inset ring-neutral-900/5 dark:ring-white/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+                        <div class="mx-auto max-w-xs px-8">
+                            <p class="mt-6 flex items-baseline justify-center gap-x-2">
+                                <span class="text-5xl font-bold tracking-tight line-through opacity-50">$1,111</span>
+                            </p>
+                            <p class="mt-6 text-lg font-semibold text-neutral-600 dark:text-neutral-400">
+                                Early Access Free
+                            </p>
+                            <a href="#early-access" class="mt-10 block w-full rounded-md bg-neutral-900 px-3 py-2 text-center text-sm font-semibold text-white dark:bg-white dark:text-black hover:bg-neutral-700 dark:hover:bg-neutral-200">
+                                Get Early Access
+                            </a>
+                            <p class="mt-6 text-xs leading-5 text-neutral-600 dark:text-neutral-400">
+                                Need help setting up or custom tooling? 
+                                <a href="#contact" class="underline hover:no-underline">Talk to an engineer</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="early-access" class="relative isolate py-24 sm:py-32 bg-neutral-50 dark:bg-neutral-900/50">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+            <div class="mx-auto max-w-2xl">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Get Early Access Today</h2>
+                <p class="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-400">
+                    Be among the first to experience the future of data analytics. Limited time offer - get early access completely free!
+                </p>
+                <form class="mt-10 max-w-md mx-auto">
+                    <div class="flex w-full max-w-md flex-col sm:flex-row gap-4">
+                        <label for="email-address" class="sr-only">Email address</label>
+                        <input id="email-address" name="email" type="email" autocomplete="email" required class="min-w-0 flex-auto rounded-lg border-0 bg-white dark:bg-neutral-800 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-neutral-300 dark:ring-neutral-700 focus:ring-2 focus:ring-inset focus:ring-neutral-900 dark:focus:ring-white sm:text-sm sm:leading-6" placeholder="Enter your email">
+                        <button type="submit" class="flex-none rounded-lg bg-neutral-900 dark:bg-white px-3.5 py-2.5 text-sm font-semibold text-white dark:text-black shadow-sm hover:bg-neutral-700 dark:hover:bg-neutral-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:focus-visible:outline-white">
+                            Request Access
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-neutral-200 dark:border-neutral-800">
+        <div class="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+            <div class="flex justify-center space-x-6 md:order-2">
+                <a href="https://dataviewtool.com" class="text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                    dataviewtool.com
+                </a>
+            </div>
+            <div class="mt-8 md:order-1 md:mt-0">
+                <p class="text-center text-sm leading-6 text-neutral-600 dark:text-neutral-400">&copy; 2025 dataviewtool. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Updated mobile menu toggle with animation and click outside handling
+        const mobileMenuButton = document.querySelector('button[aria-expanded]');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.querySelector('.menu-icon');
+
+        mobileMenuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Close menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
