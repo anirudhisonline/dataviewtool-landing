@@ -153,10 +153,9 @@
             position: absolute;
             transition: all 0.3s ease;
         }
-
-        .menu-icon .close {
-            opacity: 0;
-            transform: rotate(-45deg) scale(0);
+        .bar {
+            width: 0%;
+            transition: width 1s ease-in-out;
         }
 
         button[aria-expanded="true"] .menu-icon .open {
@@ -297,8 +296,18 @@
     <!-- Hero Section -->
     <section class="relative isolate pt-32 pb-20">
         <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+            <div class="flex items-center mb-10 justify-center">
+                <div id="chart" class="w-full max-w-md space-y-4">
+                    <div class="bar h-6 border-[1px] border-gray-500 dark:border-gray-300 bg-black/10 dark:bg-white/20 rounded-md" data-width="30%"></div>
+                    <div class="bar h-6 border-[1px] border-gray-500 dark:border-gray-300 bg-black/10 dark:bg-white/20 rounded-md" data-width="50%"></div>
+                    <div class="bar h-6 border-[1px] border-gray-500 dark:border-gray-300 bg-black/10 dark:bg-white/20 rounded-md" data-width="70%"></div>
+                    <div class="bar h-6 border-[1px] border-gray-500 dark:border-gray-300 bg-black/10 dark:bg-white/20 rounded-md" data-width="90%"></div>
+                    <div class="bar h-6 border-[1px] border-gray-500 dark:border-gray-300 bg-black/10 dark:bg-white/20 rounded-md" data-width="40%"></div>
+                </div>
+            </div>
             <div class="mx-auto max-w-3xl">
                 <h1 class="text-4xl font-bold tracking-tight sm:text-6xl mb-4">
+                    
                     light weight ultra fast
                 </h1>
                 <p class="text-2xl font-semibold mb-6">Data View Tool</p>
@@ -716,6 +725,19 @@
     </footer>
 
     <script>
+        function updateBars() {
+            document.querySelectorAll(".bar").forEach(bar => {
+                let newWidth = Math.floor(Math.random() * 91) + 10 + "%"; // Random width between 10% - 100%
+                bar.style.width = newWidth;
+            });
+        }
+
+        // Initial animation
+        window.onload = () => {
+            updateBars();
+            setInterval(updateBars, 2000); // Update bars every 2 seconds
+        };
+        
         // Updated mobile menu toggle with animation and click outside handling
         const mobileMenuButton = document.querySelector('button[aria-expanded]');
         const mobileMenu = document.getElementById('mobile-menu');
